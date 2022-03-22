@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Dashboard</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet" />
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <section
+                class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                            <div class="d-flex justify-content-center py-4">
+                                <a href="#"
+                                    class="logo d-flex align-items-center w-auto text-decoration-none fs-3 fw-normal">
+                                    <img src="assets/img/logo.png" alt="" />
+                                    <span class="d-none d-lg-block ms-3">Logo Here</span>
+                                </a>
+                            </div>
+                            <!-- End Logo -->
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="pt-2 pb-2">
+                                        <h5 class="card-title text-center pb-0 fs-4">
+                                            Create an Account
+                                        </h5>
+                                        <p class="text-center small">
+                                            Enter your personal details to create account
+                                        </p>
+                                    </div>
+                                    {% if messages %}
+                                    <ul class="messages">
+                                      {% for message in messages %}
+                                      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+                                      {% endfor %}
+                                    </ul>
+                                    {% endif %}
+
+                                    <form method="POST" class="row g-3" action="#" id="post-form" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="col-6">
+                                            <label for="yourName" class="form-label">Your Name</label>
+                                            <input type="text" name="username" class="form-control" id="yourName"
+                                                required />
+                                                {% for error in form1.username.errors %}
+                                                <p class="text-danger">{{ error|escape }}</p>
+                                                {% endfor %}
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label for="yourEmail" class="form-label">Your Email Address</label>
+                                            <input type="email" name="email" class="form-control" id="yourEmail"
+                                                required />
+                                                {% for error in form1.email.errors %}
+                                                <p class="text-danger">{{ error|escape }}</p>
+                                                {% endfor %}
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label for="role" class="form-label">Role</label>
+                                            <select class="form-select" name="roll">
+                                                <option value="SETTER">SETTER</option>
+                                                <option value="HOD">HOD</option>
+                                                <option value="HOI">HOI</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="mobilenumber" class="form-label">Mobile Number</label>
+                                            <input type="text" name="mobile_number" class="form-control"
+                                                id="mobilenumber" required />
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="yourPassword" class="form-label">Password</label>
+                                            <input type="password" name="password1" class="form-control"
+                                                id="yourPassword" required />
+                                                {% for error in form1.password.errors %}
+                                                <p class="text-danger">{{ error|escape }}</p>
+                                                {% endfor %}
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="yourPassword" class="form-label">Conform Password</label>
+                                            <input type="password" name="password2" class="form-control"
+                                                id="yourPassword" required />
+                                                {% for error in form1.password.errors %}
+                                                <p class="text-danger">{{ error|escape }}</p>
+                                                {% endfor %}
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="address" class="form-label">Address</label>
+                                            <textarea class="form-control" name="address" required></textarea>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="term_condition" type="checkbox" value="terms and conditions"
+                                                    id="acceptTerms" required />
+                                                <label class="form-check-label" for="acceptTerms">I agree and accept the
+                                                    <a href="#">terms and conditions</a></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary w-100">
+                                                Create Account
+                                            </button>
+                                        </div>
+                                        <div class="col-12">
+                                            <p class="small mb-0">
+                                                Already have an account?
+                                                <a href="{% url 'User:login' %}">Log in</a>
+                                            </p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- End #main -->
+</body>
+
+</html>

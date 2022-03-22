@@ -1,0 +1,55 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% load static %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Data Upload</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item active">Data Upload</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="card">
+            <div class="card-body p-5">
+                <form>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label>Course</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Semester</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>subject</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Subjectcode</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Subjectcode</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Upload file</label>
+                            <input class="form-control" type="file" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
+{% endblock %}

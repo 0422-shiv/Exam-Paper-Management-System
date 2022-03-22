@@ -1,0 +1,70 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% load static %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Feedback</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item active">Feedback</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="card">
+            <div class="card-body p-5">
+                <form>
+                    <div class="text-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Approved
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Rejected
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="py-2 text-center">
+                        <h1 class="py-3 text-primary">show again feedback</h1>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Approved
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
+                                checked>
+                            <label class="form-check-label" for="flexRadioDefault3">
+                                Rejected
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="pt-3 mb-3">
+                        <label>Comment</label>
+                        <textarea class="form-control h-150"></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-primary">send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
+{% endblock %}
