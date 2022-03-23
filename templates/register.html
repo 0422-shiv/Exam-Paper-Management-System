@@ -67,7 +67,7 @@
                                         {% csrf_token %}
                                         <div class="col-6">
                                             <label for="yourName" class="form-label">Name</label>
-                                            <input type="text" name="username" class="form-control" id="yourName"
+                                            <input type="text" name="name" class="form-control" id="yourName"
                                                 required />
                                                 {% for error in form1.username.errors %}
                                                 <p class="text-danger">{{ error|escape }}</p>
@@ -85,22 +85,23 @@
 
                                         <div class="col-6">
                                             <label for="role" class="form-label">Role</label>
-                                            <select class="form-select" name="roll">
-                                                <option value="SETTER">select</option>
-                                                <option value="SETTER">Setter</option>
-                                                <option value="HOD">HOD</option>
-                                                <option value="HOI">HOI</option>
+                                            <select class="form-select" name="role" required>
+                                                <!-- <option value="SETTER">select</option> -->
+                                                {% for data in roles %}
+                                                <option value="{{data.id}}">{{data.name}}</option>
+                                                {% endfor  %}
+                                              
                                             </select>
                                         </div>
                                         <div class="col-6">
                                             <label for="mobilenumber" class="form-label">Mobile Number</label>
-                                            <input type="text" name="mobile_number" class="form-control"
+                                            <input type="number" name="mobile_number" class="form-control"
                                                 id="mobilenumber" required />
                                         </div>
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
-                                            <input type="password" name="password1" class="form-control"
+                                            <input type="password" name="password" class="form-control"
                                                 id="yourPassword" required />
                                                 {% for error in form1.password.errors %}
                                                 <p class="text-danger">{{ error|escape }}</p>
@@ -114,7 +115,7 @@
 
                                         <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="term_condition" type="checkbox" value="terms and conditions"
+                                                <input class="form-check-input" name="is_terms_conditions" type="checkbox" value="terms and conditions"
                                                     id="acceptTerms" required />
                                                 <label class="form-check-label" for="acceptTerms">I agree and accept the
                                                     <a href="#">terms and conditions</a></label>
