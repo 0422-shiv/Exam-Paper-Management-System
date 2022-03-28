@@ -14,35 +14,62 @@
         </nav>
     </div>
     <!-- End Page Title -->
+    {% if messages %}
+    {% for message in messages %}
+
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+            <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+            <strong>{{message}}</strong>
+        </div>
+
+        {% else %}
+
+        <div class="alert alert-success alert-dismissible" style="text-align: left;">
+            <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+            <strong>{{message}}</strong>
+        </div>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
 
     <section class="section dashboard">
         <div class="card">
             <div class="card-body p-5">
-                <form>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label>Course</label>
-                            <input class="form-control" type="text" />
+                            <select class="form-select" aria-label="Default select example" name="course" >
+                                {% for data in courses %}
+                                <option value="{{data.id}}" selected>{{data.course_name}}</option>
+                                {% endfor  %}
+                              </select>
                         </div>
                         <div class="col-md-6">
                             <label>Semester</label>
-                            <input class="form-control" type="text" />
+                            <select class="form-select" aria-label="Default select example"  name="semester">
+                                {% for data in semester %}
+                                <option value="{{data.id}}" selected>{{data.semester_name}}</option>
+                                {% endfor  %}
+                              </select>
                         </div>
                         <div class="col-md-6">
                             <label>subject</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" name="subject" type="text" required />
                         </div>
                         <div class="col-md-6">
                             <label>Subjectcode</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" name="subject_code" type="text" required/>
                         </div>
-                        <div class="col-md-6">
-                            <label>Subjectcode</label>
-                            <input class="form-control" type="text" />
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Upload file</label>
-                            <input class="form-control" type="file" />
+                            <input class="form-control" name="paper" type="file" required/>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary mx-auto">Submit</button>
                         </div>
                     </div>
                 </form>
