@@ -28,72 +28,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for data in uploaded_papers %}
                         <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
+                            <td>{{data.course}}</td>
+                            <td>{{data.semester}}</td>
+                            <td>{{data.subject}}</td>
+                            <td>{{data.subject_code}}</td>
                             <td><span class="badge bg-success">Approved</span></td>
                             <td>
                                 <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
                                 <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-warning">waiting</span></td>
-                            <td>
-                                <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td>
-                                <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-success">Approved</span></td>
-                            <td>
-                                <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-warning">waiting</span></td>
-                            <td>
-                                <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td>
-                                <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
-                            </td>
-                        </tr>
+                        {% endfor %}
+                      
                     </tbody>
                 </table>
                 <div class="text-end">
