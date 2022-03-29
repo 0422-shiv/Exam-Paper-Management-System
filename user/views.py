@@ -74,19 +74,19 @@ class RegisterView(generic.TemplateView):
         user.otp=otp
         user.save()
        
-        # data_content = {"otp": user.otp}
+        data_content = {"otp": user.otp}
 
-        # email_content = 'email_template/email_to_new_user.html'
+        email_content = 'email_template/email_to_new_user.html'
 
-        # email_template = get_template(email_content).render(data_content)
-        # reciver_email = email
+        email_template = get_template(email_content).render(data_content)
+        reciver_email = email
        
-        # Subject = 'Account Verification'
-        # email_msg = EmailMessage(Subject, email_template, settings.EMAIL_HOST_USER, [reciver_email],
-        #                             reply_to=[settings.EMAIL_HOST_USER])
-        # email_msg.content_subtype = 'html'
-        # email_msg.send(fail_silently=False) 
-        messages.success(request, "Account created successfully")
+        Subject = 'Account Verification'
+        email_msg = EmailMessage(Subject, email_template, settings.EMAIL_HOST_USER, [reciver_email],
+                                    reply_to=[settings.EMAIL_HOST_USER])
+        email_msg.content_subtype = 'html'
+        email_msg.send(fail_silently=False) 
+        messages.success(request, "four digit code sent to your registered mail address")
         return render(request,  "verify.html",{"email":email})
 
 class VerifyAccountView(generic.TemplateView):
