@@ -55,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin,DateMixin):
     otp = models.IntegerField(null=True, blank=True)   # email verification otp
     address = models.TextField(null=True, blank=True)
     is_terms_conditions = models.BooleanField(default=False) # Accepted terms and conditions or not
+    img= models.ImageField(upload_to="profile", height_field=None, width_field=None, max_length=None,null=True,blank=True)
     
     USERNAME_FIELD = 'email'
 
