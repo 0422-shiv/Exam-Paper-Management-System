@@ -38,17 +38,18 @@ class MyAccountView(generic.TemplateView):
                                                     mobile_no=phone)
             if "img" in request.FILES:
                 user=request.user
-                image_path=user.img.path
+                if user.img:
+                    image_path=user.img.path
                 
-                if os.path.exists(image_path):
-                    os.remove(image_path)
-                    user.img=request.FILES["img"]
-                    user.save()
+                    if os.path.exists(user.img.path):
+                        os.remove(image_path)
+                        user.img=request.FILES["img"]
+                        user.save()
                 else:
                     user.img=request.FILES["img"]
                     user.save()
              
-            messages.success(request,"Profileupdated successfully")
+            messages.success(request,"successfully updated ")
         elif 'change_password' in request.POST:
             form = MyPasswordChangeForm(request.user, request.POST)
             if form.is_valid():
