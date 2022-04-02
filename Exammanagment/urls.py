@@ -33,4 +33,4 @@ urlpatterns = [
     path('contact-us', include(('contact_us.urls', 'Contact-Us'), namespace='Contact-Us')),
 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
