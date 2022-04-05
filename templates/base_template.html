@@ -29,6 +29,7 @@
 
     <!-- Template Main CSS File -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 </head>
 
 <body>
@@ -143,7 +144,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'My-Account:myaccount' %}">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
                             </a>
@@ -152,12 +153,12 @@
                             <hr class="dropdown-divider" />
                         </li>
 
-                        <li>
+                        {% comment %} <li>
                             <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
                                 <i class="bi bi-gear"></i>
                                 <span>Account Settings</span>
                             </a>
-                        </li>
+                        </li> {% endcomment %}
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
@@ -167,7 +168,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'User:logout' %}">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>
@@ -202,7 +203,7 @@
             <!-- End Profile Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'My-Upload:DataUpload' %}">
+                <a class="nav-link collapsed" href="{% url 'My-Upload:MyUploadView' %}">
                     <i class="bi bi-cloud-upload"></i>
                     <span>My uploads</span>
                 </a>
@@ -248,14 +249,47 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
+   
 
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-
-
-    <!-- Template Main JS File -->
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <Script>
+        $(document).ready(function () {
+            $(".delete").click(function () {
+                var delete_value = $(this).data("id");
+                console.log(delete_value)
+                swal({
+                    title: "Are you sure?",
+                    text: "You want to delete !",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: 'btn-danger',
+                    confirmButtonText: 'Yes, delete it!',
+                    closeOnConfirm: false,
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            var token = '{{csrf_token}}';
+                            $.ajax({
+                                headers: { "X-CSRFToken": token },
+                                url: "/data-upload/delete-data/" + delete_value,
+                                type: "POST",
+                                success: function (json) {
+                                    swal("Done!", "It was succesfully deleted!", "success");
+                                    location.reload();
+                                }
+                            });
+                        }
+                        else {
+                            swal("Cancelled", "Your imaginary file is safe :)", "error");
+                        }
+                    })
+            });
+        });
+</script>
 </body>
 
 </html>

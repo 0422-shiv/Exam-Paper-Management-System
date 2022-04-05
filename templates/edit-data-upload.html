@@ -1,0 +1,84 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% load static %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Update Data</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">Update Data</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <section class="section dashboard">
+        <div class="card">
+            <div class="card-body p-5">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label>Course</label>
+                            <select class="form-select" name="course" aria-label="Default select example" required>
+                                {% for data in courses %}
+                                {% if data == instance.course_name %}
+                                <option value="{{course_list.course_name}}" selected>{{course_list.course_name}}</option>
+                                {% else %}
+                                <option value="{{data.id}}" selected>{{data.course_name}}</option>
+                                {% endif %}
+                                {% endfor  %}
+                              </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Semester</label>
+                            <select class="form-select" name="semester" aria-label="Default select example" required>
+                                {% for data in semester %}
+                                {% if data == instance.semester_name %}
+                                <option  value="{{sem.semester_name}}" selected>{{sem.semester_name}}</option>
+                                {% else %}
+                                <option value="{{data.id}}" selected>{{data.semester_name}}</option>
+                                {% endif %}
+                                {% endfor  %}
+                              </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>subject</label>
+                            <input class="form-control" value="{{instance.subject}}" name="subject" type="text" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Subjectcode</label>
+                            <input class="form-control" value="{{instance.subject_code}}" name="subject_code" type="text" required/>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Upload file</label>
+                            <input class="form-control" value="{{instance.paper.url}}" accept="application/pdf" name="paper" type="file" />
+                        </div>
+                        {% if instance.paper %}
+                        <div class="col-md-12">
+                            <td> Exam Pdf :- <a href="{{instance.paper.url}}" name="filepath" target="blank"> {{instance.paper}}</a> </td>
+                        </div>
+                      
+                        {% endif %}
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary mx-auto">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+<!-- End #main -->
+{% endblock %}

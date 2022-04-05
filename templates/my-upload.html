@@ -36,17 +36,17 @@
                             <td>{{data.subject_code}}</td>
                             <td><span class="badge bg-success">Approved</span></td>
                             <td>
-                                <a href="#" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
-                                <a href="#" class="d-inline-block btn btn-danger"><i class="bi bi-bucket-fill"></i></a>
+                                <a href="{% url 'Data-Upload:UpdateDataUploadView' data.id %}" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
+                                <a href="javascript:void(0)"  class="d-inline-block btn btn-danger delete" data-id="{{data.id}}"><i class="bi bi-bucket-fill"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
                       
                     </tbody>
                 </table>
-                <div class="text-end">
+                {% comment %} <div class="text-end">
                     <a href="#" class="btn btn-primary">View All</a>
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>
     </section>
@@ -54,3 +54,4 @@
 <!-- End #main -->
 
 {% endblock %}
+

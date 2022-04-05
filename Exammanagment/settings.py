@@ -156,3 +156,4 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'plagiarismfreecontent09@gmail.com'
 EMAIL_HOST_PASSWORD = 'March@2020'
+DEFAULT_FROM_EMAIL = "plagiarismfreecontent09@gmail.com"
