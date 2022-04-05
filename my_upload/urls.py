@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
 
-    path('', views.MyUploadView.as_view(), name="DataUpload")
+    path('', views.MyUploadView.as_view(), name="MyUploadView")
 
 ]

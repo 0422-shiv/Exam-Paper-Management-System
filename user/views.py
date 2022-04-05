@@ -13,6 +13,13 @@ import email.message
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 from Exammanagment import settings
+from django.urls import reverse_lazy
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from django.utils.translation import gettext_lazy as _
+from django.views.generic.edit import FormView
+from .forms import PasswordResetForm
 # Create your views here.
 
 
@@ -108,3 +115,48 @@ def LogoutPageView(request):
         logout(request)
         messages.info(request, "You have successfully logged out.")
         return render(request, "login.html" )
+
+
+class PasswordContextMixin:
+    extra_context = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'title': self.title,
+            **(self.extra_context or {})
+        })
+        return context
+
+
+class PasswordResetView(PasswordContextMixin, FormView):
+    email_template_name = 'email_template/password_reset_email.html',
+    extra_email_context = None
+    form_class = PasswordResetForm
+    from_email = settings.DEFAULT_FROM_EMAIL
+    html_email_template_name = None
+    subject_template_name = 'email_template/password_reset_subject.txt'
+    success_url = reverse_lazy('password.reset.done')
+    template_name ='password-reset/password_reset.html'
+    title = _('Password reset')
+    token_generator = default_token_generator
+
+    @method_decorator(csrf_protect)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        
+        opts = {
+            'use_https': self.request.is_secure(),
+            'token_generator': self.token_generator,
+            'from_email': self.from_email,
+            'email_template_name': self.email_template_name,
+            'subject_template_name': self.subject_template_name,
+            'request': self.request,
+            'html_email_template_name': self.html_email_template_name,
+            'extra_email_context': self.extra_email_context,
+        }
+        form.save(**opts)
+        return super().form_valid(form)
+    

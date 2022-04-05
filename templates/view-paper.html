@@ -7,12 +7,19 @@
         <h1>View Papers</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
                 <li class="breadcrumb-item active">View Papers</li>
             </ol>
         </nav>
     </div>
     <!-- End Page Title -->
+        {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
     <section class="section dashboard">
         <div class="card">
@@ -29,71 +36,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for data in dataupload %}
                         <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
+                            <td>{{data.course}}</td>
+                            <td>{{data.semester}}</td>
+                            <td>{{data.subject}}</td>
+                            <td>{{data.subject_code}}</td>
 
                             <td>
                                 <a href="{% url 'View-Paper:feedback' %}"class="d-inline-block btn btn-outline-primary">Give Feedback</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-
-                            <td>
-                                <a href="{% url 'View-Paper:feedback' %}" class="d-inline-block btn btn-outline-primary">Give Feedback</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-
-                            <td>
-                                <a href="{% url 'View-Paper:feedback' %}" class="d-inline-block btn btn-outline-primary">Give Feedback</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-
-                            <td>
-                                <a href="{% url 'View-Paper:feedback' %}" class="d-inline-block btn btn-outline-primary">Give Feedback</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-
-                            <td>
-                                <a href="{% url 'View-Paper:feedback' %}" class="d-inline-block btn btn-outline-primary">Give Feedback</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>MCA</td>
-                            <td>1</td>
-                            <td>Maths</td>
-                            <td>24</td>
-
-                            <td>
-                                <a href="{% url 'View-Paper:feedback' %}" class="d-inline-block btn btn-outline-primary">Give Feedback</a>
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-                <div class="text-end">
+                {% comment %} <div class="text-end">
                     <a href="#" class="btn btn-primary">View All</a>
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>
     </section>
