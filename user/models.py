@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
@@ -56,7 +55,9 @@ class User(AbstractBaseUser, PermissionsMixin,DateMixin):
     address = models.TextField(null=True, blank=True)
     is_terms_conditions = models.BooleanField(default=False) # Accepted terms and conditions or not
     img= models.ImageField(upload_to="profile", height_field=None, width_field=None, max_length=None,null=True,blank=True)
-    
+    assigned_course = models.ManyToManyField("data_upload.Course")
+    assigned_semester =models.ManyToManyField("data_upload.Semester")
+   
     USERNAME_FIELD = 'email'
 
     objects = UserManager()

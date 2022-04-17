@@ -1,7 +1,6 @@
 {% extends 'base_template.html' %}
 {% block content %}
 {% load static %}
-
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>View Papers</h1>
@@ -13,14 +12,21 @@
         </nav>
     </div>
     <!-- End Page Title -->
-        {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-      <li {% if message.tags %} class=" {{ message.tags }} secondary " {% endif %}> {{ message }} </li>
-      {% endfor %}
-    </ul>
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <div class="alert alert-danger alert-dismissible" style="text-align: left;">
+        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+        <strong>{{message}}</strong>
+    </div>
+    {% else %}
+    <div class="alert alert-success alert-dismissible" style="text-align: left;">
+        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" style="color: crimson!important">&times;</a>
+        <strong>{{message}}</strong>
+    </div>
     {% endif %}
-
+    {% endfor %}
+    {% endif %}
     <section class="section dashboard">
         <div class="card">
             <div class="card-body">
@@ -31,7 +37,7 @@
                             <th>semester</th>
                             <th>subject</th>
                             <th>subjectcode</th>
-
+                            <th>Paper</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -42,10 +48,18 @@
                             <td>{{data.semester}}</td>
                             <td>{{data.subject}}</td>
                             <td>{{data.subject_code}}</td>
-
-                            <td>
-                                <a href="{% url 'View-Paper:feedback' %}"class="d-inline-block btn btn-outline-primary">Give Feedback</a>
+                              <td>
+                                <a href="{{data.paper.url}}" target='blank' class="d-inline-block btn btn-outline-primary">click here</a>
                             </td>
+                            {% if request.user|is_geedback_given:data %}
+                              <td>
+                                <a href="{% url 'View-Paper:view_feedback' data.id %}" class="d-inline-block btn btn-outline-primary">View Given Feedback</a>
+                            </td>
+                            {% else %}
+                            <td>
+                                <a href="{% url 'View-Paper:feedback' data.id %}" class="d-inline-block btn btn-outline-primary">Give Feedback</a>
+                            </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -58,5 +72,4 @@
     </section>
 </main>
 <!-- End #main -->
-
 {% endblock %}

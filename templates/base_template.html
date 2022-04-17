@@ -5,31 +5,25 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
     <title>Exam Paper Management </title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
-
     <!-- Favicons -->
     <link href="{% static 'img/favicon.png' %}" rel="icon" />
     <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon" />
-
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
     <!-- Vendor CSS Files -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
     <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
     <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
-
     <link href="{% static 'vendor/simple-datatables/style.css' %}" rel="stylesheet" />
-
     <!-- Template Main CSS File -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+ 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">  
 </head>
 
 <body>
@@ -43,7 +37,6 @@
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
         <!-- End Logo -->
-
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
                 <li class="nav-item">
@@ -52,97 +45,49 @@
                     </a>
                 </li>
                 <!-- End Login Page Nav -->
-
                 <li class="nav-item">
                     <a class="nav-link text-decoration-none text-black" href="{% url 'Contact-Us:contactus' %}">
                         <span>Contact Us</span>
                     </a>
                 </li>
-
                 <li class="nav-item dropdown">
+                   
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span> </a><!-- End Notification Icon -->
-
+                         <i class="bi bi-bell"></i>
+                         {% if request.user.is_authenticated %}
+                    {% if request.user|count_notification > 0 %}
+                       
+                        <span class="badge bg-primary badge-number">
+                            {{request.user|count_notification}}
+                        </span> {% endif %}
+                    {% endif %}</a> 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
-                            You have 4 new notifications
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                            You have {% if request.user.is_authenticated %}
+                            {{request.user|count_notification}}
+                            {% endif %} new notifications
+                            <a href="{% url 'Send-Notification:allnotification' %}"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                         </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-exclamation-circle text-warning"></i>
-                            <div>
-                                <h4>Lorem Ipsum</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>30 min. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-x-circle text-danger"></i>
-                            <div>
-                                <h4>Atque rerum nesciunt</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>1 hr. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-check-circle text-success"></i>
-                            <div>
-                                <h4>Sit rerum fuga</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>2 hrs. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-info-circle text-primary"></i>
-                            <div>
-                                <h4>Dicta reprehenderit</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>4 hrs. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li class="dropdown-footer">
-                            <a href="#">Show all notifications</a>
-                        </li>
+                        {% if request.user.is_authenticated %}
+                        {{request.user|get_new_notification}}
+                        {% endif %}
                     </ul>
                     <!-- End Notification Dropdown Items -->
                 </li>
                 <!-- End Notification Nav -->
-
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        {% if request.user.img %}
+                        <img src="{{request.user.img.url}}" alt="Profile" class="rounded-circle" />
+                        {% else %}
                         <img src="{% static 'img/profile-img.jpg' %}" alt="Profile" class="rounded-circle" />
+                        {% endif %}
                         <span class="d-none d-md-block dropdown-toggle ps-2">{{request.user.username}}</span> </a>
                     <!-- End Profile Iamge Icon -->
-
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{% url 'My-Account:myaccount' %}">
                                 <i class="bi bi-person"></i>
@@ -152,7 +97,6 @@
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-
                         {% comment %} <li>
                             <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
                                 <i class="bi bi-gear"></i>
@@ -162,11 +106,9 @@
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{% url 'User:logout' %}">
                                 <i class="bi bi-box-arrow-right"></i>
@@ -182,7 +124,6 @@
         <!-- End Icons Navigation -->
     </header>
     <!-- End Header -->
-
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
@@ -193,30 +134,31 @@
                 </a>
             </li>
             <!-- End Dashboard Nav -->
-
+              {% if request.user.role.slug == "setter" %}
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'Data-Upload:DataUpload' %}">
                     <i class="bi bi-cloud-upload"></i>
                     <span>Data Upload</span>
                 </a>
             </li>
-            <!-- End Profile Page Nav -->
-
+          
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'My-Upload:MyUploadView' %}">
                     <i class="bi bi-cloud-upload"></i>
                     <span>My uploads</span>
                 </a>
             </li>
+         
             <!-- End F.A.Q Page Nav -->
-
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'Rejected-Upload:RejectedUpload' %}">
                     <i class="bi bi-upload"></i>
                     <span>Rejected uploads</span>
                 </a>
             </li>
+               {% endif %}
             <!-- End Contact Page Nav -->
+             {% if not request.user.role.slug == "setter" %}
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'View-Paper:paper' %}">
                     <i class="bi bi-card-list"></i>
@@ -229,7 +171,7 @@
                     <span>Send Notification</span>
                 </a>
             </li>
-
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'My-Account:myaccount' %}">
                     <i class="bi bi-person"></i>
@@ -240,28 +182,22 @@
     </aside>
     <!-- End Sidebar-->
     <!-------------------------------------end header------------------------------------------>
-    
     {% block content %}
     {% endblock %}
-  
     <!-------------------------------------start footer------------------------------------------>
-
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
-
-   
-
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script> 
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
     <script src="{% static 'js/main.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <Script>
-        $(document).ready(function () {
-            $(".delete").click(function () {
-                var delete_value = $(this).data("id");
-                console.log(delete_value)
-                swal({
+    $(document).ready(function() {
+        $(".delete").click(function() {
+            var delete_value = $(this).data("id");
+            console.log(delete_value)
+            swal({
                     title: "Are you sure?",
                     text: "You want to delete !",
                     type: "warning",
@@ -270,25 +206,29 @@
                     confirmButtonText: 'Yes, delete it!',
                     closeOnConfirm: false,
                 },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            var token = '{{csrf_token}}';
-                            $.ajax({
-                                headers: { "X-CSRFToken": token },
-                                url: "/data-upload/delete-data/" + delete_value,
-                                type: "POST",
-                                success: function (json) {
-                                    swal("Done!", "It was succesfully deleted!", "success");
-                                    location.reload();
-                                }
-                            });
-                        }
-                        else {
-                            swal("Cancelled", "Your imaginary file is safe :)", "error");
-                        }
-                    })
-            });
+                function(isConfirm) {
+                    if (isConfirm) {
+                        var token = '{{csrf_token}}';
+                        $.ajax({
+                            headers: { "X-CSRFToken": token },
+                            url: "/data-upload/delete-data/" + delete_value,
+                            type: "POST",
+                            success: function(json) {
+                                swal("Done!", "It was succesfully deleted!", "success");
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    }
+                })
         });
+    });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#example-getting-started').multiselect();
+    });
 </script>
 </body>
 
