@@ -29,14 +29,15 @@
                     {% csrf_token %}
                     <div class="text-center">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" value="True" type="radio" name="status" id="Approved">
+                            <input class="form-check-input" value="True" type="radio" name="status" id="Approved"
+                             {% if feedback.status == True %}checked{% endif %}>
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Approved
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" value="False" type="radio" name="status" id="Rejected"
-                                checked>
+                                 {% if feedback.status == False %}checked{% endif %}>
                             <label class="form-check-label" for="flexRadioDefault2">
                                 Rejected
                             </label>
@@ -46,14 +47,14 @@
                     <div class="py-2 text-center">
                         <h1 class="py-3 text-primary">Return again for feedback</h1>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" value="True" name="return_feedback" id="Yes">
+                            <input class="form-check-input" type="radio" value="True" name="return_feedback" id="Yes"  {% if feedback.status == True %}checked{% endif %}>
                             <label class="form-check-label" for="flexRadioDefault2">
                                 Yes
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" value="False" name="return_feedback" id="No"
-                                checked>
+                            <input class="form-check-input" type="radio"value="False" name="return_feedback" id="No"
+                                {% if feedback.return_feedback == False %}checked{% endif %}>
                             <label class="form-check-label" for="flexRadioDefault3">
                                 No
                             </label>
@@ -63,11 +64,9 @@
 
                     <div class="pt-3 mb-3">
                         <label>Comment</label>
-                        <textarea class="form-control h-150" name="comment" ></textarea>
+                        <textarea class="form-control h-150" name="comment" >{{feedback.comment}}{{feedback.return_feedback}}</textarea>
                     </div>
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary">send</button>
-                    </div>
+               
                 </form>
             </div>
         </div>

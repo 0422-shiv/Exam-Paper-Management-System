@@ -1,0 +1,86 @@
+{% extends 'base_template.html' %}
+{% block content %}
+{% load static %}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Notification</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard:dashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">Notification</li>
+            </ol>
+        </nav>
+    </div>
+  
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Recent Sales -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">All Notifications</h5>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Send By</th>
+                                            <th>Title</th>
+                                            <th>Message</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for data in page_obj.object_list %}
+                                        <tr>
+                                            <td>{{data.send_notification_by}}</td>
+                                            <td>{{data.title}}</td>
+                                            <td>{{data.message}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <nav aria-label="Page navigation " class="supplier-pagination">
+                                    {% if page_obj.has_other_pages %}
+                                    <ul class="pagination justify-content-center">
+                                        {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="active"><span>Previous</span></li>
+                                        {% endif %} {% for i in page_obj.paginator.page_range %} {% if page_obj.number == i %}
+                    
+                                        <li class="active">
+                                            <span class="page-item">{{ i }} <span class="sr-only"></span></span>
+                                        </li>
+                                        {% else %}
+                                        <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %} {% endfor %} {% if page_obj.has_next %}
+                                        <li>
+                                            <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="disabled"><span>Next</span></li>
+                                        {% endif %}
+                                    </ul>
+                                    {% endif %}
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Recent Sales -->
+                    <!-- Top Selling -->
+                </div>
+            </div>
+            <!-- End Left side columns -->
+            <!-- Right side columns -->
+        </div>
+    </section>
+</main>
+
+
+{% endblock %}

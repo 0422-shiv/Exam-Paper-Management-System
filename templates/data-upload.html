@@ -8,7 +8,7 @@
         <h1>Data Upload</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="">Home</a></li>
                 <li class="breadcrumb-item active">Data Upload</li>
             </ol>
         </nav>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="col-md-6">
                             <label>Semester</label>
-                            <select class="form-select" aria-label="Default select example"  name="semester">
+                            <select class="form-control" aria-label="Default select example"  name="semester">
                                 {% for data in semester %}
                                 <option value="{{data.id}}" selected>{{data.semester_name}}</option>
                                 {% endfor  %}
