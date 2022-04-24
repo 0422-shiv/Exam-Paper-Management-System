@@ -114,7 +114,7 @@ class VerifyAccountView(generic.TemplateView):
 def LogoutPageView(request):
         logout(request)
         messages.info(request, "You have successfully logged out.")
-        return render(request, "login.html" )
+        return HttpResponseRedirect(reverse('User:login'))
 
 
 class PasswordContextMixin:
