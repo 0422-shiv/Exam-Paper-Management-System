@@ -10,14 +10,20 @@ from .models import FeedBack
 from django.template.defaulttags import register
 from send_notification.models import SendNotification
 from user.models import User,Role
+from django.db.models import Q
 # Create your views here.
 
 @method_decorator(login_required(login_url='/'), name="dispatch")
 class PaperView(generic.TemplateView):
     template_name = "view-paper.html" 
     def get(self, request):
-        dataupload = ExamPaper.objects.filter(
-            course=request.user.assigned_course.first()).order_by('-updated_at')
+        dataupload=None
+        if request.user.role.slug == 'hod' :
+            dataupload = ExamPaper.objects.filter(
+                course=request.user.assigned_course.first()).filter(Q(paper_status='Pending-HOD') | Q(paper_status='Approved') | Q(paper_status='Rejected-HOD')).order_by('-updated_at')
+        elif request.user.role.slug == 'hoi' :
+                dataupload = ExamPaper.objects.filter(
+                course=request.user.assigned_course.first()).filter(Q(paper_status='Pending-HOI') | Q(paper_status='Approved') | Q(paper_status='Rejected-HOI')).order_by('-updated_at')
         return render(request,  "view-paper.html",{'dataupload':dataupload})  
 
 @method_decorator(login_required(login_url='/'), name="dispatch")
