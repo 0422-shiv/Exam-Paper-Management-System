@@ -10,7 +10,7 @@ class MyUploadView(generic.TemplateView):
     template_name = "my-upload.html" 
 
     def get(self, request):
-        uploaded_papers = ExamPaper.objects.filter(created_by=request.user)
+        uploaded_papers = ExamPaper.objects.filter(created_by=request.user).order_by('-id')
         return render(request,  "my-upload.html",{'uploaded_papers':uploaded_papers})  
 
    

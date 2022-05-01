@@ -52,14 +52,38 @@
                                 {% endfor  %}
                               </select>
                         </div>
-                        <div class="col-md-6">
+                                       <div class="col-md-6">
+                            <label>subject</label>
+                            <select class="form-control get_subject" id="subject_id"  aria-label="Default select example" name="subject">
+                                {% for data in subjects %}
+                                {% if data.subject_name == instance.subject %}
+                                <option value="{{data.subject_name}}" selected>{{data.subject_name}}</option>
+                                {% else %}
+                                <option value="{{data.subject_name}}" >{{data.subject_name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+             <!--            <div class="col-md-6">
                             <label>subject</label>
                             <input class="form-control" value="{{instance.subject}}" name="subject" type="text" required/>
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <label>Subjectcode</label>
-                            <input class="form-control" value="{{instance.subject_code}}" name="subject_code" type="text" required/>
+                            <input id="subject_code"  readonly class="form-control" value="{{instance.subject_code}}" name="subject_code" type="text" required/>
                         </div>
+                       <!--  <div class="col-md-6">
+                            <label>subject code</label>
+                            <select class="form-control" aria-label="Default select example" name="subject_code">
+                                {% for data in subjects %}
+                                {% if data.subject_code == instance.subject_code %}
+                                <option value="{{data.subject_code}}" selected>{{data.subject_code}}</option>
+                                {% else %}
+                                  <option value="{{data.subject_code}}" >{{data.subject_code}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div> -->
                         <div class="col-md-12">
                             <label>Upload file</label>
                             <input class="form-control" value="{{instance.paper.url}}" accept="application/pdf" name="paper" type="file" />

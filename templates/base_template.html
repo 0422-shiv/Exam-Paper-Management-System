@@ -230,6 +230,40 @@
         $('#example-getting-started').multiselect();
     });
 </script>
+
+
+  <script type="text/javascript">
+$( window ).on("load",function(){
+  var subject_id = $("#subject_id").val();
+  console.log(subject_id);
+
+    {% for data in subjects %}
+ 
+      if('{{data.subject_name}}' == subject_id)
+      {
+      $('#subject_code').val('{{data.subject_code}}');
+      }
+    {% endfor %}
+
+  });
+  </script>
+
+
+  <script type="text/javascript">
+  $(document).on("click",".get_subject",function(){
+  var subject_id = $("#subject_id").val();
+
+
+    {% for data in subjects %}
+ 
+      if('{{data.subject_name}}' == subject_id)
+      {
+      $('#subject_code').val('{{data.subject_code}}');
+      }
+    {% endfor %}
+
+  });
+  </script>
 </body>
 
 </html>

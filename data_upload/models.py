@@ -20,6 +20,18 @@ class Course(models.Model):
 
     def __str__(self) -> str:
         return self.course_name
+    
+class Subjects(models.Model):
+    subject_name = models.CharField(max_length=100, null=True, blank=True)
+    subject_code = models.CharField(max_length=20, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Subject'
+        verbose_name_plural = 'Subjects'
+
+    def __str__(self) -> str:
+        return self.subject_name
+
 
 class ExamPaper(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE,null=True, blank=True)

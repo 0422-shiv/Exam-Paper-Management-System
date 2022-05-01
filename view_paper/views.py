@@ -20,10 +20,10 @@ class PaperView(generic.TemplateView):
         dataupload=None
         if request.user.role.slug == 'hod' :
             dataupload = ExamPaper.objects.filter(
-                course=request.user.assigned_course.first()).filter(Q(paper_status='Pending-HOD') | Q(paper_status='Approved') | Q(paper_status='Rejected-HOD')).order_by('-updated_at')
+                course__in=request.user.assigned_course.all()).filter(Q(paper_status='Pending-External-Examiner') | Q(paper_status='Pending-Checker') | Q(paper_status='Excellent') | Q(paper_status='Review-Checker')).order_by('-updated_at')
         elif request.user.role.slug == 'hoi' :
                 dataupload = ExamPaper.objects.filter(
-                course=request.user.assigned_course.first()).filter(Q(paper_status='Pending-HOI') | Q(paper_status='Approved') | Q(paper_status='Rejected-HOI')).order_by('-updated_at')
+                course__in=request.user.assigned_course.all()).filter(Q(paper_status='Pending-External-Examiner') | Q(paper_status='Excellent') | Q(paper_status='Review-External-Examiner')).order_by('-updated_at')
         return render(request,  "view-paper.html",{'dataupload':dataupload})  
 
 @method_decorator(login_required(login_url='/'), name="dispatch")
@@ -41,25 +41,25 @@ class FeedBackView(generic.TemplateView):
         form.save()
         if status == 'True':
             if request.user.role.slug == 'hod' :
-                paper_data.paper_status='Pending-HOI'
-                notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is approved by HOD',
-                            message=f'Your {paper_data.subject} paper is approved by HOD ,waiting for HOI approval')
+                paper_data.paper_status='Pending-External-Examiner'
+                notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is approved by Checker',
+                            message=f'Your {paper_data.subject} paper is approved by Checker ,waiting for External-Examiner approval')
                 
            
             else:
-                notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is approved by HOI',
-                            message=f'Your {paper_data.subject} paper is successfully approved by HOI')
-                paper_data.paper_status='Approved'
+                notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is approved by External-Examiner',
+                            message=f'Your {paper_data.subject} paper is successfully approved by External-Examiner')
+                paper_data.paper_status='Excellent'
         else:
             if request.user.role.slug == 'hod' :
-                    paper_data.paper_status='Rejected-HOD'
-                    notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is rejected by HOD',
-                            message=f'Your {paper_data.subject} paper is rejected by HOD ,Please check or upload again')
+                    paper_data.paper_status='Review-Checker'
+                    notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is rejected by Checker',
+                            message=f'Your {paper_data.subject} paper is rejected by Checker ,Please check or upload again')
                 
             else:
-                paper_data.paper_status= 'Rejected-HOI'
-                notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is rejected by HOI',
-                            message=f'Your {paper_data.subject} paper is rejected by HOI ,Please check or upload again')
+                paper_data.paper_status= 'Review-External-Examiner'
+                notification=SendNotification.objects.create(send_notification_by=request.user,title=f'{paper_data.subject} paper is rejected by External-Examiner',
+                            message=f'Your {paper_data.subject} paper is rejected by External-Examiner ,Please check or upload again')
                 
             
         notification.user.add(paper_data.created_by)
