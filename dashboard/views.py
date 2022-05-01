@@ -6,6 +6,7 @@ from data_upload.models import ExamPaper
 from django.template.defaulttags import register
 from send_notification.models import SendNotification
 from django.template.loader import render_to_string
+from django.db.models import Q
 # Create your views here.
 
 # class HomeView(generic.TemplateView):
@@ -18,7 +19,7 @@ class DashboardView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['dataupload'] = ExamPaper.objects.filter(created_by=self.request.user)[:5]
-        # context['status'] = ExamPaper.objects.filter(status='Rejected').count()
+        context['status'] = ExamPaper.objects.filter(created_by=self.request.user).filter(Q(paper_status='Review-External-Examiner') | Q(paper_status='Review-Checker')).count()
         context['course'] = self.request.user.assigned_course.count()
         context['semester'] =self.request.user.assigned_semester.count()
         context['total_upload'] =ExamPaper.objects.filter(created_by=self.request.user).count()                 

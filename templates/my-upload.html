@@ -15,7 +15,7 @@
 
     <section class="section dashboard">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body">  
                 <table class="table">
                     <thead>
                         <tr>
@@ -24,6 +24,7 @@
                             <th>subject</th>
                             <th>subjectcode</th>
                             <th>status</th>
+                                <th>Feedback<th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -35,6 +36,10 @@
                             <td>{{data.subject}}</td>
                             <td>{{data.subject_code}}</td>
                             <td>{{data.paper_status|default:'-'}}</td>
+                              <td>
+                                <a href="{% url 'Rejected-Upload:given_feedback' data.id %}" class="d-inline-block btn btn-primary me-2">View</a>
+                               
+                            </td>
                             <td>
                                 <a href="{% url 'Data-Upload:UpdateDataUploadView' data.id %}" class="d-inline-block btn btn-primary me-2"><i class="bi bi-pencil"></i></a>
                                 <a href="javascript:void(0)"  class="d-inline-block btn btn-danger delete" data-id="{{data.id}}"><i class="bi bi-bucket-fill"></i></a>

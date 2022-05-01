@@ -12,7 +12,7 @@ class RejectedUploadView(generic.TemplateView):
     template_name = "rejected-upload.html"
     
     def get(self, request,*args, **kwargs):
-        rejected = ExamPaper.objects.filter(created_by=request.user).filter(Q(paper_status='Rejected-HOI') | Q(paper_status='Rejected-HOD')).order_by('-id')
+        rejected = ExamPaper.objects.filter(created_by=request.user).filter(Q(paper_status='Review-External-Examiner') | Q(paper_status='Review-Checker')).order_by('-id')
 
         return render(request,  "rejected-upload.html",{'rejected':rejected}) 
     

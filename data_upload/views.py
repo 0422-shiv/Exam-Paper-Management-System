@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render,get_object_or_404
 from django.views import generic
-from data_upload.models import Course, Semester,ExamPaper
+from data_upload.models import Course, Semester,ExamPaper,Subjects
 from data_upload.forms import DataUploadForm
 from django.contrib import messages
 from django.http import  HttpResponseRedirect
@@ -20,14 +20,16 @@ class DataUploadView(generic.TemplateView):
     def get(self, request):
         courses = Course.objects.all()
         semester = Semester.objects.all()
-        return render(request,  "data-upload.html",{'courses':courses, 'semester':semester}) 
+        subjects=Subjects.objects.all()
+        print(subjects)
+        return render(request,  "data-upload.html",{'courses':courses, 'semester':semester,'subjects':subjects}) 
 
     def post(self,request):
         form = DataUploadForm(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.created_by = request.user
-            instance.paper_status = 'Pending-HOD'
+            instance.paper_status = 'Pending-Checker'
             instance.save() 
             role= Role.objects.get(slug='hod')
            
@@ -50,7 +52,8 @@ class UpdateDataUploadView(generic.TemplateView):
         
         courses = Course.objects.all()
         semester = Semester.objects.all()
-        return render(request,  "edit-data-upload.html",{'courses':courses, 'semester':semester,'instance':instance}) 
+        subjects=Subjects.objects.all()
+        return render(request,  "edit-data-upload.html",{'subjects':subjects,'courses':courses, 'semester':semester,'instance':instance}) 
 
     def post(self, request, id, *args, **kwargs):
         data = get_object_or_404(ExamPaper, id=id)    
@@ -67,23 +70,23 @@ class UpdateDataUploadView(generic.TemplateView):
                                     title = f'{paper_data.subject} paper is updated to review',
                                     message=f'{request.user} is updated {paper_data.subject} , Give feedback')
                     notification.user.add(feedback.feedback_by)
-                    paper_data.paper_status = 'Pending-HOD'
+                    paper_data.paper_status = 'Pending-Checker'
                     
                 elif feedback.return_feedback  == False and feedback.feedback_by.role.slug == 'hod':
                     notification=SendNotification.objects.create(send_notification_by=request.user,
                                     title = f'{paper_data.subject} paper is updated to review',
                                     message=f'{request.user} is updated {paper_data.subject} , Give feedback')
                     [notification.user.add(data) for data in User.objects.filter(role=role)]
-                    paper_data.paper_status = 'Pending-HOI'
+                    paper_data.paper_status = 'Pending-External-Examiner'
                 elif feedback.return_feedback and feedback.feedback_by.role.slug == 'hoi':
                     feedback.is_updated = True
                     notification=SendNotification.objects.create(send_notification_by=request.user,
                                     title = f'{paper_data.subject} paper is updated to review',
                                     message=f'{request.user} is updated {paper_data.subject} , Give feedback')
                     notification.user.add(feedback.feedback_by)
-                    paper_data.paper_status = 'Pending-HOI'
+                    paper_data.paper_status = 'Pending-External-Examiner'
                 else:
-                    paper_data.paper_status = 'Approved'
+                    paper_data.paper_status = 'Excellent'
                 feedback.save()    
                     
             paper_data.save()
