@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-6">
                             <label>subject</label>
-                            <select class="form-control get_subject" id="subject_id" aria-label="Default select example" name="subject">
+                            <select class="form-control get_subject" id="subject_id" aria-label="Default select example" name="subject" required>
                                 {% for data in subjects %}
                                 <option value="{{data.subject_name}}" selected>{{data.subject_name}}</option>
                                 {% endfor %}

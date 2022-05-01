@@ -18,16 +18,21 @@ class DataUploadView(generic.TemplateView):
     template_name = "data-upload.html" 
 
     def get(self, request):
-        courses = Course.objects.all()
-        semester = Semester.objects.all()
+        courses = request.user.assigned_course.all()
+        semester = request.user.assigned_semester.all()
         subjects=Subjects.objects.all()
-        print(subjects)
+       
         return render(request,  "data-upload.html",{'courses':courses, 'semester':semester,'subjects':subjects}) 
 
     def post(self,request):
         form = DataUploadForm(request.POST, request.FILES)
+        
         if form.is_valid():
             instance = form.save(commit=False)
+            
+            if not form.cleaned_data['course'] or not form.cleaned_data['semester']:
+                messages.error(request, 'Your Data has not Upload ! You fill the right Data')
+                return render(request, "data-upload.html")
             instance.created_by = request.user
             instance.paper_status = 'Pending-Checker'
             instance.save() 
@@ -50,8 +55,8 @@ class UpdateDataUploadView(generic.TemplateView):
     def get(self, request,id):
         instance=ExamPaper.objects.get(id=id)
         
-        courses = Course.objects.all()
-        semester = Semester.objects.all()
+        courses = request.user.assigned_course.all()
+        semester = request.user.assigned_semester.all()
         subjects=Subjects.objects.all()
         return render(request,  "edit-data-upload.html",{'subjects':subjects,'courses':courses, 'semester':semester,'instance':instance}) 
 
